@@ -1,0 +1,16 @@
+test:
+   pre:
+      - | # Test multiline yaml support
+        if [[ "$CI_PULL_REQUEST" != "" ]]; then
+          echo "pull request build"
+        else	  
+          echo "regular build without PR. yay!"
+        fi
+   post:
+      - |
+        git config --global user.email "praveen@tgtiio.com"
+        git config --global user.name "Praveen Samudrala"
+        echo $CIRCLE_SHA1 > .commit
+        git add .
+        git commit -m 'creating a dummy commit'
+        git push origin $CIRCLE_BRANCH
